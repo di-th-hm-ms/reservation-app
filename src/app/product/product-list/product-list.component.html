@@ -2,7 +2,8 @@
   <br>
   <div class="row">
     <div class="col-sm" *ngFor="let product of products; let productId = index;">
-      <a [routerLink]="[productId]"> <!-- '' means /hoge/productId -> /hoge/1 -->
+      <!-- <a [routerLink]="['details']"> -->
+      <a [routerLink]="[ productId ]"> <!-- '' means /hoge/productId -> /hoge/1 -->
         <div class="card">
           <img class="card-img-top" src="../../assets/img/placeholder-300x202.webp" alt="Card image cap">
           <div class="card-body">

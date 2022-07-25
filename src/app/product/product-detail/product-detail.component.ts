@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { mockProducts } from '../product-mock';
+import { Product } from '../product';
 
 @Component({
   selector: 'app-product-detail',
@@ -9,19 +10,29 @@ import { mockProducts } from '../product-mock';
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, private _product: Object = {}) { }
+  private _product: Product;
+
+  constructor(
+    private route: ActivatedRoute,
+    ) {
+      this._product = new Product();
+    }
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params: ParamMap) => {
       if (params !== null) {
+        // strange error occurs
         const id = params.get('productId');
-        if (id !== null)
-          this._product = mockProducts[+id];
+        if (id !== null) {
+          const datum = mockProducts[+id];
+          this._product = new Product(datum.name, datum.price, datum.description);
+          console.log(this._product)
+        }
       }
     });
   }
 
-  get product(): Object {
+  get product(): Product {
     return this._product;
   }
 

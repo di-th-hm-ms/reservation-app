@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+// 07/21
+// import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -18,6 +20,7 @@ import { NavBarComponent } from './common/navbar/navbar.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
+    // HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
