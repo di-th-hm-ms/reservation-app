@@ -25,8 +25,8 @@ export class ProductDetailComponent implements OnInit {
         const id = params.get('productId');
         if (id !== null) {
           const datum = mockProducts[+id];
-          this._product = new Product(datum.name, datum.price, datum.description);
-          console.log(this._product)
+          this._product = new Product(datum.name, datum.price, datum.description,
+             datum.titles, datum.bodies, datum.coverImgPath);
         }
       }
     });
