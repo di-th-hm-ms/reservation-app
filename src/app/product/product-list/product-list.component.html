@@ -1,12 +1,13 @@
 <div class="container">
   <br>
   <div class="row">
-    <div class="col-sm" *ngFor="let product of products">
-      <a [routerLink]="['detail']">
+    <div class="col-sm" *ngFor="let product of products; let productId = index;">
+      <!-- <a [routerLink]="['details']"> -->
+      <a [routerLink]="[ productId ]"> <!-- '' means /hoge/productId -> /hoge/1 -->
         <div class="card">
           <img class="card-img-top" src="../../assets/img/placeholder-300x202.webp" alt="Card image cap">
           <div class="card-body">
-            <h3>{{product.name}}</h3>
+            <h5 class="card-title">{{product.name}}</h5>
             <p class="card-text">{{product.price}}</p>
             <p class="card-text">{{product.description}}</p>
             <!-- <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p> -->
