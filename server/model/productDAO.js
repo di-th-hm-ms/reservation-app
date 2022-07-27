@@ -15,7 +15,10 @@ module.exports = class ProuductDAO {
 
   // DB を指定のものに
   useDB = name => {
-    this.conn.query("USE reservationdb");
+    this.conn.query("USE reservationdb", (error, result) => {
+      if (error) throw error;
+      console.log(result);
+    });
   };
 
   // create table after initDB()
@@ -40,28 +43,36 @@ module.exports = class ProuductDAO {
   }
 
   // DB初期化 before createTable()
-  initDB = _ => {
-    // 既存データ削除
-    this.deleteAll();
-    mockProducts.forEach(newProduct => {
-      const product = new Product(newProduct.name, newProduct.price, newProduct.description,
-                                  newProduct.titles, newProduct.bodies, newProduct.coverImgPath);
-      const sql = "INSERT INTO products set ?";
-      this.conn.query(sql, { name: product.name, price: product.price, description: product.description,
-                        title1: product.titles[0], title2: product.titles[1], title3: product.titles[2],
-                        body1: product.bodies[0], body2: product.bodies[1], body3: product.bodies[2],
-                        coverImgPath: product.coverImgPath }, (error, result) => {
-                          if (error) throw error;
-                          console.log(result);
-                        });
-    });
+  initDB = async _ => {
+    try {
+      // 既存データ削除
+      await this.deleteAll();
+      mockProducts.forEach(newProduct => {
+        const product = new Product(newProduct.name, newProduct.price, newProduct.description,
+                                    newProduct.titles, newProduct.bodies, newProduct.coverImgPath);
+        const sql = "INSERT INTO products set ?";
+        this.conn.query(sql, { name: product.name, price: product.price, description: product.description,
+                          title1: product.titles[0], title2: product.titles[1], title3: product.titles[2],
+                          body1: product.bodies[0], body2: product.bodies[1], body3: product.bodies[2],
+                          coverImgPath: product.coverImgPath }, (error, result) => {
+                            if (error) throw error;
+                            console.log(result);
+                          });
+      });
+    }
+    catch (e) {
+      throw e;
+    }
   };
 
   deleteAll = _ => {
-    this.conn.query("DELETE FROM products", (error, result) => {
-      if (error) throw error;
-      console.log(result);
-    });
+    return new Promise((resolve, reject) => {
+      this.conn.query("DELETE FROM products", (error, result) => {
+        if (error) reject(error);
+        console.log(result);
+        resolve();
+      });
+    })
   };
 
   // 全データ表示
