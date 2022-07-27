@@ -1,4 +1,4 @@
-export const mockProducts = [
+const mockProducts = [
   {
     name: 'Phone XL',
     price: 799,
@@ -38,3 +38,5 @@ export const mockProducts = [
     coverImgPath: '../../../assets/img/phone-cover.jpg'
   }
 ];
+
+module.exports = mockProducts;
