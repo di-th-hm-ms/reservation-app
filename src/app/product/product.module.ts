@@ -5,6 +5,7 @@ import { ProductListComponent } from './product-list/product-list.component';
 // import { Routes, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ProductRoutingModule } from './product-routing.module';
+import { ProductService } from './shared/product.service';
 
 @NgModule ({
   declarations: [
@@ -16,9 +17,9 @@ import { ProductRoutingModule } from './product-routing.module';
     ProductRoutingModule,
     CommonModule  // ngFor等を使うため。
   ],
-  // providers: [
-
-  // ],
+  providers: [
+    ProductService
+  ],
   // bootstrap: []
 })
 export class ProductModule {}

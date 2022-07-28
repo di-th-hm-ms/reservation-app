@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { mockProducts } from '../product-mock';
 import { Product } from '../product';
+import { ProductService } from '../shared/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,6 +15,7 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private productService: ProductService
     ) {
       this._product = new Product();
     }
@@ -24,9 +26,7 @@ export class ProductDetailComponent implements OnInit {
         // strange error occurs
         const id = params.get('productId');
         if (id !== null) {
-          const datum = mockProducts[+id];
-          this._product = new Product(datum.name, datum.price, datum.description,
-             datum.titles, datum.bodies, datum.coverImgPath);
+          this._product = this.productService.getProductById(+id);
         }
       }
     });
