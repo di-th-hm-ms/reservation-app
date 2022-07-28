@@ -2,20 +2,21 @@ const express = require('express');
 // const config = require('./config/dev'); // develop env
 // const Product = require('./model/product');
 // const mockProducts = require('./product-mock');
-const ProductDAO = require('./model/productDAO');
+const ProductDAO = require('./model/productDAO'); // ProductDAO class
+const productsRouter = require('./routes/products'); // Router instance
 
 const app = express();
 
-// -- DB
-const productDAO = new ProductDAO();
-productDAO.useDB("reservationdb");
-productDAO.createTable();
+// // -- DB
+// const productDAO = new ProductDAO();
+// productDAO.useDB("reservationdb");
+// productDAO.createTable();
 
-// DB初期化処理
-productDAO.initDB().then(_ => {
-  // 全データ表示
-  productDAO.selectAll();
-});
+// // DB初期化処理
+// productDAO.initDB().then(_ => {
+//   // 全データ表示
+//   productDAO.selectAll();
+// });
 
 // angularからリクエストを受け取って行う
 
@@ -23,9 +24,10 @@ productDAO.initDB().then(_ => {
 
 // create endpoints
 // angular でいうproducts以降のパスと情報表示の関係
-app.get('/products', (req, res) => {
-  res.json({'success': true});
-});
+// app.get('/products', (req, res) => {
+//   res.json({'success': true});
+// });
+app.use('/api/v1/products', productsRouter);
 
 const PORT = process.env.PORT || '3001'; // Heroku側の設定==process.env
 
