@@ -7,16 +7,16 @@ const productsRouter = require('./routes/products'); // Router instance
 
 const app = express();
 
-// -- DB
-const productDAO = new ProductDAO();
-productDAO.useDB("reservationdb");
-productDAO.createTable();
+// // -- DB
+// const productDAO = new ProductDAO();
+// productDAO.useDB("reservationdb");
+// productDAO.createTable();
 
-// DB初期化処理
-productDAO.initDB().then(_ => {
-  // 全データ表示
-  productDAO.selectAll();
-});
+// // DB初期化処理
+// productDAO.initDB().then(_ => {
+//   // 全データ表示
+//   productDAO.selectAll();
+// });
 
 // angularからリクエストを受け取って行う
 

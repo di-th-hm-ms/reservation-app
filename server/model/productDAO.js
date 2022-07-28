@@ -22,7 +22,7 @@ module.exports = class ProuductDAO {
   };
 
   // create table after initDB()
-  createTable = _ => {
+  createTable = async _ => {
     const sql = "CREATE TABLE IF NOT EXISTS products(\
       id SERIAL PRIMARY KEY,\
       name VARCHAR(40),\
@@ -46,7 +46,8 @@ module.exports = class ProuductDAO {
   initDB = async _ => {
     try {
       // 既存データ削除
-      await this.deleteAll();
+      await this.dropTable();
+      await this.createTable();
       mockProducts.forEach(newProduct => {
         const product = new Product(newProduct.name, newProduct.price, newProduct.description,
                                     newProduct.titles, newProduct.bodies, newProduct.coverImgPath);
@@ -74,13 +75,34 @@ module.exports = class ProuductDAO {
       });
     })
   };
+  // ID resetをかけるため。
+  dropTable = _ => {
+    return new Promise((resolve, reject) => {
+      this.conn.query("DROP TABLE IF EXISTS products", (error, result) => {
+        if (error) reject(error);
+        console.log(result);
+        resolve();
+      });
+    })
+  };
 
   // 全データ表示
   selectAll = _ => {
-    const sql = "SELECT * FROM products";
-    this.conn.query(sql, (error, result) => {
+    return new Promise((resolve, reject) => {
+      this.conn.query("SELECT * FROM products", (error, result) => {
+        if (error) reject(error);
+        console.log(result);
+        resolve(result);
+      });
+    });
+  };
+
+  // IDで取得
+  selectById = async id => {
+    this.conn.query("SELECT * FROM products WHERE id = ?", [id], (error, result) => {
       if (error) throw error;
       console.log(result);
-    });
+      return result
+    })
   };
 };
