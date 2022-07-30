@@ -3,6 +3,7 @@ import { Product } from '../product';
 
 // import { mockProducts } from '../product-mock';
 import { ProductService } from '../shared/product.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-product-list',
@@ -16,9 +17,32 @@ export class ProductListComponent implements OnInit {
     private productService: ProductService
   ) {
     // this._products = [new Product("Mac"), new Product("Windows"), new Product("Linux")];
-    this.handleJsonData();
-    console.log(this._products.length);
+    // this._products = this.productService.getProducts();
+    const productObservable: Observable<any> = this.productService.getProducts();
+
+    productObservable.subscribe(
+      // observer methods
+      (data: any) => { console.log("this data is output: "); console.log(data); },
+      (data: any) => { console.log("this error is output: "); console.log(data); },
+      // () => { console.log("complete!") }
+    )
   }
+
+  // Observable example on rxjs documents
+  // observable = new Observable((subscriber: Observable<any>) => {
+  //   subscriber.next(1);
+  //   subscriber.next(2);
+  //   subscriber.error('error occurs');
+  //   setTimeout(_ => {
+  //     subscriber.next(4);
+  //     subscriber.complete();
+  //   }, 3000);
+  // });
+  // observable.subscribe(
+  //   next(x) { console.log('get value: ' + x); },
+  //   error(err) { console.log('somethign wrong occurs: ' + err); },
+  //   complete() { console.log('complete'); }
+  // );
 
   ngOnInit(): void {
 
@@ -27,9 +51,5 @@ export class ProductListComponent implements OnInit {
   get products(): Product[] {
     return this._products
   }
-
-  private handleJsonData = () => {
-    this._products = this.productService.getProducts();
-  };
 
 }

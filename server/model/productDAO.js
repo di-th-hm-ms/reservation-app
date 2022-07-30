@@ -98,11 +98,14 @@ module.exports = class ProuductDAO {
   };
 
   // IDで取得
-  selectById = async id => {
-    this.conn.query("SELECT * FROM products WHERE id = ?", [id], (error, result) => {
-      if (error) throw error;
-      console.log(result);
-      return result
-    })
+  selectById = id => {
+    return new Promise((resolve, reject) => {
+      this.conn.query("SELECT * FROM products WHERE id = ?", [id], (error, result) => {
+        if (error) reject(error);
+        console.log("bbb");
+        console.log(result);
+        resolve(result);
+      });
+    });
   };
 };
