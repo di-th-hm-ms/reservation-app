@@ -18,11 +18,18 @@ export class ProductListComponent implements OnInit {
   ) {
     // this._products = [new Product("Mac"), new Product("Windows"), new Product("Linux")];
     // this._products = this.productService.getProducts();
-    const productObservable: Observable<any> = this.productService.getProducts();
+    const productsObservable: Observable<any> = this.productService.getProducts();
 
-    productObservable.subscribe(
+    // data stream from node server
+    productsObservable.subscribe(
       // observer methods
-      (data: any) => { console.log("this data is output: "); console.log(data); },
+      (data: any) => {
+        console.log(data);
+        data.forEach((datum: any) => {
+          this._products.push(new Product(datum.id, datum.name, datum.price, datum.description,
+            datum.titles, datum.bodies, datum.coverImgPath));
+        });
+      },
       (data: any) => { console.log("this error is output: "); console.log(data); },
       // () => { console.log("complete!") }
     )
