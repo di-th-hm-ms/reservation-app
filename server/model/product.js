@@ -1,4 +1,6 @@
+// to become easy to insert, update
 module.exports = class Product {
+  _id;
   _name;
   _price;
   _description;
@@ -6,8 +8,10 @@ module.exports = class Product {
   _bodies;
   _coverImgPath;
 
-  constructor(name = "ProductName", price = 100, description = "No description",
+  constructor(id = 0, name = "ProductName", price = 100, description = "No description",
               titles=[], bodies=[], coverImgPath="") {
+
+    this._id = id;
     this._name = name;
     this._price = price;
     this._description = description;

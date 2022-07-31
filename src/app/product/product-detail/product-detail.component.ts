@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
-import { mockProducts } from '../product-mock';
+// import { mockProducts } from '../product-mock';
 import { Product } from '../product';
 import { ProductService } from '../shared/product.service';
 
@@ -26,7 +26,15 @@ export class ProductDetailComponent implements OnInit {
         // strange error occurs
         const id = params.get('productId');
         if (id !== null) {
-          this._product = this.productService.getProductById(+id);
+          // observable json data
+          this.productService.getProductById(+id).subscribe(
+            (data: any) => {
+              const titles: string[] = [data[0].title1, data[0].title2, data[0].title3];
+              const bodies: string[] = [data[0].body1, data[0].body2, data[0].body3];
+              this._product = new Product(data[0].id, data[0].name, data[0].price, data[0].description,
+                titles, bodies, data[0].coverImgPath);
+            }
+          );
         }
       }
     });

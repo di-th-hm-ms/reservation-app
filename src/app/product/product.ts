@@ -1,4 +1,5 @@
 export class Product {
+  private _id: number;
   private _name: string;
   private _price: number;
   private _description: string;
@@ -6,8 +7,9 @@ export class Product {
   private _bodies: string[];
   private _coverImgPath: string;
 
-  constructor(name: string = "ProductName", price: number = 100, description: string = "No description",
+  constructor(id: number = 0, name: string = "ProductName", price: number = 100, description: string = "No description",
               titles: string[]=[], bodies: string[]=[], coverImgPath: string="") {
+    this._id = id;
     this._name = name;
     this._price = price;
     this._description = description;
@@ -16,6 +18,9 @@ export class Product {
     this._coverImgPath = coverImgPath;
   }
 
+  get id(): number {
+    return this._id;
+  }
   get name(): string {
     return this._name;
   }

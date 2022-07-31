@@ -1,4 +1,4 @@
-const Product = require('./product');
+// const Product = require('./product');
 const mockProducts = require('../product-mock');
 const config = require('../config/dev'); // develop env
 
@@ -49,13 +49,13 @@ module.exports = class ProuductDAO {
       await this.dropTable();
       await this.createTable();
       mockProducts.forEach(newProduct => {
-        const product = new Product(newProduct.name, newProduct.price, newProduct.description,
-                                    newProduct.titles, newProduct.bodies, newProduct.coverImgPath);
+        // const product = new Product(newProduct.name, newProduct.price, newProduct.description,
+        //                             newProduct.titles, newProduct.bodies, newProduct.coverImgPath);
         const sql = "INSERT INTO products set ?";
-        this.conn.query(sql, { name: product.name, price: product.price, description: product.description,
-                          title1: product.titles[0], title2: product.titles[1], title3: product.titles[2],
-                          body1: product.bodies[0], body2: product.bodies[1], body3: product.bodies[2],
-                          coverImgPath: product.coverImgPath }, (error, result) => {
+        this.conn.query(sql, { name: newProduct.name, price: newProduct.price, description: newProduct.description,
+                          title1: newProduct.titles[0], title2: newProduct.titles[1], title3: newProduct.titles[2],
+                          body1: newProduct.bodies[0], body2: newProduct.bodies[1], body3: newProduct.bodies[2],
+                          coverImgPath: newProduct.coverImgPath }, (error, result) => {
                             if (error) throw error;
                             console.log(result);
                           });
@@ -98,11 +98,14 @@ module.exports = class ProuductDAO {
   };
 
   // IDで取得
-  selectById = async id => {
-    this.conn.query("SELECT * FROM products WHERE id = ?", [id], (error, result) => {
-      if (error) throw error;
-      console.log(result);
-      return result
-    })
+  selectById = id => {
+    return new Promise((resolve, reject) => {
+      this.conn.query("SELECT * FROM products WHERE id = ?", [id], (error, result) => {
+        if (error) reject(error);
+        console.log("bbb");
+        console.log(result);
+        resolve(result);
+      });
+    });
   };
 };

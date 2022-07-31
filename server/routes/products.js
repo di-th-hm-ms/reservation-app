@@ -36,6 +36,8 @@ router.get('/:productId', (req, res) => {
   // DB初期化処理
   productDAO.initDB().then(async _ => {
     const result = await productDAO.selectById(productId);
+    console.log("aaa");
+    console.log(result);
     if (result) res.json(result);
     else res.status(422).send({title: "Product Error", detail: "Product not found"})
   });
